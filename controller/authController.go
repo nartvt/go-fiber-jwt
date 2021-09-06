@@ -84,6 +84,24 @@ func User(ctx *fiber.Ctx) error {
 		ctx.Status(fiber.StatusUnauthorized)
 		return ctx.JSON(fiber.Map{"message": "unauthenticate"})
 	}
-	claims := token.Claims
-	return ctx.JSON(claims)
+	claims := token.Claims.(*jwt.StandardClaims)
+
+	var user models.User
+
+	database.DB.Where("id=?", claims.Issuer).First(&user)
+
+	return ctx.JSON(user)
+}
+
+func Logout(ctx *fiber.Ctx) error {
+	cookie := fiber.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
+		HTTPOnly: true,
+	}
+	ctx.Cookie(&cookie)
+	return ctx.JSON(fiber.Map{
+		"message": "success",
+	})
 }
