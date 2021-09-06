@@ -6,6 +6,7 @@ import (
 	"go-fiber-jwt/database"
 	"go-fiber-jwt/models"
 	"golang.org/x/crypto/bcrypt"
+	"log"
 	"strconv"
 	"time"
 )
@@ -67,16 +68,19 @@ func Login(ctx *fiber.Ctx) error {
 		HTTPOnly: true,
 	}
 	ctx.Cookie(&cookie)
-	return ctx.JSON(fiber.Map{"message": "success"})
+	return ctx.JSON(fiber.Map{
+		"message": "success",
+	})
 }
 
 func User(ctx *fiber.Ctx) error {
 	cookie := ctx.Cookies("jwt")
-	token, err := jwt.ParseWithClaims(cookie, jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(SecretKey), nil
 	})
 
 	if err != nil {
+		log.Println(err)
 		ctx.Status(fiber.StatusUnauthorized)
 		return ctx.JSON(fiber.Map{"message": "unauthenticate"})
 	}
