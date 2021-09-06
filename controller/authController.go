@@ -10,10 +10,6 @@ import (
 	"time"
 )
 
-func Hello(ctx *fiber.Ctx) error {
-	return ctx.SendString("Hello, World !")
-}
-
 func Register(ctx *fiber.Ctx) error {
 	var data map[string]string
 
