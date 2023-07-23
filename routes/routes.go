@@ -1,20 +1,21 @@
 package routes
 
 import (
+	"go-fiber-jwt/app/controller"
+	"go-fiber-jwt/middleware"
+
 	"github.com/gofiber/fiber/v2"
-	"go-fiber-jwt/controller"
 )
 
 func Setup(app *fiber.App) {
+	app.Use(middleware.CorsFilter())
 
 	api := app.Group("/api")
+	POST(api, "/register", controller.Register)
 
-	api.Post("/register", controller.Register)
+	POST(api, "/login", controller.Login)
 
-	api.Post("/login", controller.Login)
+	GET(api, "/user", controller.User)
 
-	api.Get("/user", controller.User)
-
-	api.Post("/logout", controller.Logout)
-
+	PUT(api, "/logout", controller.Logout)
 }

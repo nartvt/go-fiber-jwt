@@ -1,0 +1,13 @@
+postgres:
+  host: 127.0.0.1
+  port: 5432
+  userName: root
+  password: root
+  database: golangdb
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  userName: root
+  password: root
+  database: jwt_auth
