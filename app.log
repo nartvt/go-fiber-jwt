@@ -1,12 +1,13 @@
-2023/07/23 18:27:48 &{{127.0.0.1 5432 root root golangdb} {127.0.0.1 3306 root root jwt_auth}}
+2023/07/26 10:35:48 &{{0.0.0.0 9000} {127.0.0.1 5432 root root golangdb} {127.0.0.1 3306 root root jwt_auth}}
 
  ┌───────────────────────────────────────────────────┐ 
  │              api gateway version 1.0              │ 
  │                   Fiber v2.18.0                   │ 
- │               http://127.0.0.1:3000               │ 
- │       (bound on host 0.0.0.0 and port 3000)       │ 
+ │               http://127.0.0.1:9000               │ 
+ │       (bound on host 0.0.0.0 and port 9000)       │ 
  │                                                   │ 
  │ Handlers ............. 6  Processes ........... 1 │ 
- │ Prefork ....... Disabled  PID ............. 78438 │ 
+ │ Prefork ....... Disabled  PID ............. 79412 │ 
  └───────────────────────────────────────────────────┘ 
 
+Fiber LOGIN

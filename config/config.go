@@ -7,8 +7,14 @@ import (
 )
 
 type Config struct {
+	Server   Server
 	Postgres Database
 	Mysql    Database
+}
+
+type Server struct {
+	Host string
+	Port int
 }
 
 type Database struct {

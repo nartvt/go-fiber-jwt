@@ -1,3 +1,3 @@
 
 build: 
-	go build -o ./bin/server -v ./main.go
+	go build -o ./bin/go_fiber_jwt_server -v ./internal/server/main.go
