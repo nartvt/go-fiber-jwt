@@ -17,6 +17,7 @@ import (
 
 const (
 	SecretKey     = "secret"
+	BearerKey     = "Bearer"
 	jwtExpireTime = time.Hour * 2
 )
 
@@ -58,14 +59,17 @@ func RegisterUser(input request.UserRequest, ctx *fiber.Ctx) Error {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 
-	cookie := fiber.Cookie{
-		Name:     "jwt",
+	ctx.Cookie(setCookie(token))
+	return nil
+}
+
+func setCookie(token string) *fiber.Cookie {
+	return &fiber.Cookie{
+		Name:     BearerKey,
 		Value:    token,
 		Expires:  time.Now().Add(jwtExpireTime),
 		HTTPOnly: true,
 	}
-	ctx.Cookie(&cookie)
-	return nil
 }
 
 func Authenticated(data request.UserRequest, ctx *fiber.Ctx) Error {
@@ -92,14 +96,7 @@ func Authenticated(data request.UserRequest, ctx *fiber.Ctx) Error {
 		log.Printf("token.SignedString: %v", err)
 		return fiber.NewError(fiber.StatusInternalServerError, uerr.Error())
 	}
-
-	cookie := fiber.Cookie{
-		Name:     "jwt",
-		Value:    token,
-		Expires:  time.Now().Add(jwtExpireTime),
-		HTTPOnly: true,
-	}
-	ctx.Cookie(&cookie)
+	ctx.Cookie(setCookie(token))
 	userData, uerr := json.Marshal(user)
 	if uerr != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, uerr.Error())
@@ -132,7 +129,7 @@ func IsUser(ctx *fiber.Ctx) (bool, Error) {
 	if len(claims) <= 0 {
 		return false, nil
 	}
-	ctx.Set("claims", claims["jwt"].(string))
+	ctx.Set("claims", claims[BearerKey].(string))
 	return true, nil
 }
 
@@ -157,7 +154,7 @@ func validateJWT(ctx *fiber.Ctx) (Claims, Error) {
 }
 
 func destructJWTToken(ctx *fiber.Ctx) (jwt.MapClaims, *jwt.Token, Error) {
-	cookie := ctx.Cookies("jwt")
+	cookie := ctx.Cookies(BearerKey)
 	if len(cookie) <= 0 {
 		return jwt.MapClaims{}, &jwt.Token{}, fiber.NewError(fiber.StatusUnauthorized, "jwt token invalid")
 	}

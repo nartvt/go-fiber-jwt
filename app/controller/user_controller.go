@@ -2,9 +2,9 @@ package controller
 
 import (
 	"fmt"
+	"go-fiber-jwt/app/middleware"
 	"go-fiber-jwt/app/request"
 	"go-fiber-jwt/app/response"
-	"go-fiber-jwt/middleware"
 	"time"
 
 	"github.com/gofiber/fiber/v2"

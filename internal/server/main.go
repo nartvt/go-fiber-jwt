@@ -5,7 +5,7 @@ import (
 	"go-fiber-jwt/config"
 	"go-fiber-jwt/infra"
 	"go-fiber-jwt/internal/routes"
-	"go-fiber-jwt/middleware"
+	"go-fiber-jwt/app/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )

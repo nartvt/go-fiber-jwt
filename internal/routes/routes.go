@@ -2,7 +2,7 @@ package routes
 
 import (
 	"go-fiber-jwt/app/controller"
-	"go-fiber-jwt/middleware"
+	"go-fiber-jwt/app/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
